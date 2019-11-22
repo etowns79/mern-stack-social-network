@@ -5,6 +5,7 @@ exports.getPosts = async (req, res) => {
     try {
         const posts = await Post.find().select("_id title body");
         res.status(200).json({ posts });
+
     } catch (error) {
         res.status(500).json({ error: error.message })
     }

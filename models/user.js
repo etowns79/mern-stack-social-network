@@ -11,12 +11,14 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         trim: true,
-        required: true
+        required: true,
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
     hashed_password: {
         type: String,
         trim: true,
-        required: true
+        required: true,
+        minlength: 5
     },
     salt: String,
     created: {
@@ -37,6 +39,10 @@ userSchema.virtual('password')
     })
 
 userSchema.methods = {
+    authenticate: function (plainText) {
+        return this.encryptPassword(plainText) === this.hashed_password;
+    },
+
     encryptPassword: function (password) {
         if (!password) return "";
         try {
@@ -49,4 +55,4 @@ userSchema.methods = {
     }
 }
 
-module.exports = mongoose.models("User", userSchema);
+module.exports = mongoose.model("User", userSchema);
