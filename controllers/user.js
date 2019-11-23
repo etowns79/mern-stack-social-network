@@ -2,7 +2,7 @@ const User = require('../models/user')
 
 exports.userById = async (req, res, next, id) => {
     try {
-        const user = User.findById(id)
+        const user = await User.findById(id)
         if (!user) {
             return res.status(400).json({
                 error: "User not found"
@@ -23,4 +23,10 @@ exports.allUsers = async (req, res) => {
         res.status(400).json({ error: error })
     }
 
+}
+
+exports.getUser = (req, res) => {
+    req.profile.hashed_password = undefined;
+    req.profile.salt = undefined;
+    return res.json(req.profile)
 }
