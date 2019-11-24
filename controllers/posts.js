@@ -3,6 +3,17 @@ const formidable = require('formidable');
 const fs = require('fs')
 const { check, validationResult } = require('express-validator')
 
+exports.postById = async (req, res, next, id) => {
+    try {
+        const post = await Post.findById(id).populate('postedBy', "_id name")
+        if (!post) return res.status(400).json({ error: "Post was not found" })
+        req.post = post
+        next()
+
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
 exports.getPosts = async (req, res) => {
     try {
         const posts = await Post.find().populate("postedBy", "_id name").select("_id title body");

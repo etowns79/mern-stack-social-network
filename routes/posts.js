@@ -4,7 +4,7 @@ const { requireSignin } = require('../controllers/auth')
 const { check, validationResult } = require('express-validator');
 
 
-const { getPosts, createPost, postsByUser } = require('../controllers/posts')
+const { getPosts, createPost, postsByUser, postById } = require('../controllers/posts')
 
 const { userById } = require('../controllers/user')
 
@@ -22,5 +22,6 @@ router.post('/new/:userId', requireSignin,
 router.get("/by/:userId", requireSignin, postsByUser)
 
 router.param("userId", userById);
+router.param("postId", postById);
 
 module.exports = router;
