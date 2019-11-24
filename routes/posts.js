@@ -10,7 +10,7 @@ const { userById } = require('../controllers/user')
 
 router.get('/', getPosts);
 
-router.post('/', requireSignin,
+router.post('/new/:userId', requireSignin,
     [
         check('title', "Title is required").not().isEmpty(),
         check('title', "Title must be greater than 4 characters long").isLength({ min: 4, max: 150 }),
