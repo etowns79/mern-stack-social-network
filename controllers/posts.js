@@ -38,4 +38,14 @@ exports.createPost = (req, res) => {
 
     })
 
-} 
+}
+
+exports.postsByUser = async (req, res) => {
+    try {
+        const post = await Post.find({ postedBy: req.profile._id }).populate("postedBy", "_id name").sort("_created")
+        if (!post) return res.status(400).json({ error: "No posts found" })
+        res.json(post)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

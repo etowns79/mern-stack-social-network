@@ -4,7 +4,7 @@ const { requireSignin } = require('../controllers/auth')
 const { check, validationResult } = require('express-validator');
 
 
-const { getPosts, createPost } = require('../controllers/posts')
+const { getPosts, createPost, postsByUser } = require('../controllers/posts')
 
 const { userById } = require('../controllers/user')
 
@@ -18,6 +18,8 @@ router.post('/new/:userId', requireSignin,
         check('body', "Body must be greater than 4 characters long").isLength({ min: 4, max: 2000 })
     ],
     createPost)
+
+router.get("/by/:userId", requireSignin, postsByUser)
 
 router.param("userId", userById);
 
