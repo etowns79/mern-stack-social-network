@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const { check, validationResult } = require('express-validator')
+const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -28,6 +29,7 @@ const userRoutes = require('./routes/user');
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(cors())
 app.use('/api/posts', postRoutes);
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes);
@@ -36,6 +38,7 @@ app.use(function (err, req, res, next) {
         res.status(401).json({ error: "Unauthorized" });
     }
 });
+
 
 const port = process.env.PORT || 8080
 
